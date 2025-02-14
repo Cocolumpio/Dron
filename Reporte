@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelo 3D - Levantamiento Topográfico</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/potree/1.8.0/potree.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/potree/1.8.0/potree.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        #potree_render_area {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="potree_render_area"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Potree.loadPointCloud("URL_DEL_MODELO/potree_pointclouds/cloud.js", "Levantamiento", function(e) {
+                let viewer = new Potree.Viewer(document.getElementById("potree_render_area"));
+                viewer.setEDLEnabled(true);
+                viewer.setFOV(60);
+                viewer.setPointBudget(1_000_000);
+                viewer.loadSettingsFromURL();
+
+                let scene = viewer.scene;
+                scene.addPointCloud(e.pointcloud);
+
+                viewer.fitToScreen();
+            });
+        });
+    </script>
+</body>
+</html>
